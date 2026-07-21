@@ -10,6 +10,16 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
 
+  mongo:
+    image: mongo:8.0
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: changeme-admin
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodata:/data/db
+
   backend:
     build: .
     ports:
@@ -18,8 +28,13 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/employeedb
       SPRING_DATASOURCE_USERNAME: employee_app
       SPRING_DATASOURCE_PASSWORD: changeme
+      # Local compose uses the mongo root user for simplicity; the real
+      # mongodb-db VM uses a scoped app_reader user instead (see provision-mongodb.sh)
+      SPRING_DATA_MONGODB_URI: mongodb://admin:changeme-admin@mongo:27017/activitydb?authSource=admin
     depends_on:
       - postgres
+      - mongo
 
 volumes:
   pgdata:
+  mongodata:
