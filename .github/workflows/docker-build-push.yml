@@ -34,4 +34,4 @@ jobs:
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/backend-employee:latest
             ${{ secrets.DOCKERHUB_USERNAME }}/backend-employee:${{ steps.vars.outputs.sha_short }}
-EOF
+#
