@@ -1,4 +1,4 @@
-cat > .github/workflows/docker-build-push.yml << 'EOF'
+#
 name: build-and-push
 
 on:
